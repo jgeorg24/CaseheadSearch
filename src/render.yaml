@@ -1,10 +1,8 @@
 services:
   - type: web
-    name: case-worker-search
-    env: python
-    plan: free
-    buildCommand: ""
-    startCommand: "python app.py"
-    envVars:
-      - key: FLASK_ENV
-        value: production
+    name: web
+    buildCommand: python3 -m pip install -r requirements.txt
+    startCommand: python3 src/app.py
+    env:
+      - key: PYTHON_VERSION
+        value: "3.11"
