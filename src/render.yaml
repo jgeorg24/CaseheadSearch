@@ -2,7 +2,7 @@ services:
   - type: web
     name: web
     buildCommand: python3 -m pip install -r requirements.txt
-    startCommand: python3 src/app.py
+    startCommand: gunicorn -b :$PORT src.app:app
     env:
       - key: PYTHON_VERSION
         value: "3.11"
