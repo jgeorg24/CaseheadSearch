@@ -91,5 +91,9 @@ def search():
                            overlapping_results=overlapping_results, alpha_listing=alpha_listing,
                            cleaned_last_name=cleaned_last_name)  # Render the homepage with results
 if __name__ == '__main__':
-    app.run()
+    # For production deployment with Gunicorn
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
+
 
