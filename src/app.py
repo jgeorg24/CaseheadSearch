@@ -91,5 +91,5 @@ def search():
                            overlapping_results=overlapping_results, alpha_listing=alpha_listing,
                            cleaned_last_name=cleaned_last_name)  # Render the homepage with results
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run()
 
