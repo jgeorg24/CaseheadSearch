@@ -1,1 +1,4 @@
-web: python3 app.py
+web:
+  buildCommand: pip install -r requirements.txt
+  startCommand: python3 app.py
+  port: 8080
