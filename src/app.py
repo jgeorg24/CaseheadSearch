@@ -90,6 +90,6 @@ def search():
     return render_template('index.html', results=results, programs=PROGRAMS, last_name_input=last_name_input,
                            overlapping_results=overlapping_results, alpha_listing=alpha_listing,
                            cleaned_last_name=cleaned_last_name)  # Render the homepage with results
-
 if __name__ == '__main__':
-    app.run(debug=True)  # Run the Flask app in debug mode
+    app.run(debug=True, port=5000)
+
