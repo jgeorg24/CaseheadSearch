@@ -55,11 +55,20 @@
     </header>
     <div class="container">
         <div class="search-section">
-            <form action="/search" method="post"> <!-- Form to handle search requests with POST method -->
-                <input type="text" name="last_name" placeholder="Enter last name" required value="{{ last_name_input }}" style="width: 60%; padding: 10px;"> <!-- Input field for last name with predefined styles and placeholder -->
-                <button type="submit" style="padding: 10px;">Search</button> <!-- Submit button with padding -->
+            <form id="searchForm" action="/search" method="post">
+                <input type="text" name="last_name" id="last_name_input" placeholder="Enter last name" required value="{{ last_name_input }}" >
+                <button type="submit">Search</button>
             </form>
+            {% if suggested_name %}
+            <p style="color: red;">Did you mean: <a href="#" onclick="useSuggestedName('{{ suggested_name }}');">{{ suggested_name }}</a></p>
+            {% endif %}
         </div>
+        <script>
+            function useSuggestedName(suggestedName) {
+                document.getElementById('last_name_input').value = suggestedName;
+                document.getElementById('searchForm').submit();
+            }
+        </script>
         <div class="results-section">
             <h2>Search Results: {{ cleaned_last_name }}</h2> <!-- Displays the cleaned last name -->
             <table>
