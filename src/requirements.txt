@@ -51,7 +51,7 @@ fonttools==4.42.1
 fqdn==1.5.1
 frozenlist==1.4.0
 fsspec==2023.9.0
-fuzzywuzzy==0.18.1
+fuzzywuzzy
 google-search-results==2.4.2
 googleapis-common-protos==1.60.0
 grpcio==1.58.0
