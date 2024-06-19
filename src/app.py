@@ -2,14 +2,12 @@ import os
 import re
 import pandas as pd
 from flask import Flask, render_template, request
-from suggestionAi import suggest_name 
-
 
 app = Flask(__name__)
 
 # Define paths to Excel files
 DATA_DIR = os.path.join(os.getcwd(), 'data')  # Define the directory where data files are located
-PROGRAMS = ['FNS', 'AD MA', 'F&C MA', 'Child Care']  # List of programs, each program corresponds to an Excel file
+PROGRAMS = ['FNS', 'ADMA', 'F&CMA', 'ChildCare']  # List of programs, each program corresponds to an Excel file
 
 # Home route
 @app.route('/')
@@ -88,13 +86,10 @@ def find_case_worker(last_name):
 @app.route('/search', methods=['POST'])
 def search():
     last_name_input = request.form['last_name']  # Get the input from the form
-    suggested_name, score = suggest_name(last_name_input)  # Call suggest_name function
-    results, overlapping_results, alpha_listing, cleaned_last_name = find_case_worker(last_name_input)
+    results, overlapping_results, alpha_listing, cleaned_last_name = find_case_worker(last_name_input)  # Call find_case_worker function
     return render_template('index.html', results=results, programs=PROGRAMS, last_name_input=last_name_input,
                            overlapping_results=overlapping_results, alpha_listing=alpha_listing,
-                           cleaned_last_name=cleaned_last_name, suggested_name=suggested_name)
-
-
+                           cleaned_last_name=cleaned_last_name)  # Render the homepage with results
 if __name__ == '__main__':
     # For production deployment with Gunicorn
     import os
