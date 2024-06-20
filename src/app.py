@@ -48,8 +48,8 @@ def find_case_worker(last_name):
                 overlapping_results.append({  # Add each match to overlapping_results list
                     'Program': program,
                     'CaseWorker': row['CaseWorker'],
-                    'BackupBuddy': row.get('BackupBuddy', ''),
                     'EXT': row.get('EXT', ''),
+                    'BackupBuddy': row.get('BackupBuddy', ''),
                     'Supervisor': row.get('Supervisor', ''),
                     'LastName': row['OriginalLastName']  # Use the original last name for display
                 })

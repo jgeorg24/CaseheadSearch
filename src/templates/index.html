@@ -1,63 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"> <!-- Sets the character encoding of the document to UTF-8 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures the page is responsive on all devices -->
-    
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> <!-- Links to an external CSS file located in the 'static' folder -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #00a4e0;
+            --secondary-color: #f2f2f2;
+            --text-color: #333;
+        }
+
         body {
-            margin: 0; /* Removes default margin */
-            padding: 0; /* Removes default padding */
-            font-family: Arial, sans-serif; /* Sets the font to Arial or a sans-serif fallback */
-            background-color: #f2f2f2; /* Sets the background color to a light grey */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
         }
+
         .header {
-            background-color: #00a4e0; /* Sets the background color of the header to blue */
-            color: white; /* Sets the text color to white */
-            padding: 10px 0; /* Adds padding of 10px to the top and bottom */
-            text-align: center; /* Centers the text horizontally */
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 0;
+            text-align: center;
         }
+
         .container {
-            max-width: 800px; /* Sets the maximum width of the container */
-            margin: 20px auto; /* Centers the container with a margin of 20px on top and bottom and auto on sides */
-            padding: 20px; /* Adds padding inside the container */
-            background-color: #fff; /* Sets the background color of the container to white */
-            border-radius: 8px; /* Rounds the corners of the container */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow around the container */
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .search-section {
-            margin-bottom: 20px; /* Adds a margin below the search section */
-            text-align: center; /* Centers the text horizontally */
+            margin-bottom: 20px;
+            text-align: center;
         }
+
+        input[type="text"] {
+            width: calc(100% - 100px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #007bb5;
+            transform: scale(1.05);
+        }
+
         .results-section {
-            text-align: left; /* Aligns the text to the left */
+            text-align: left;
         }
+
         table {
-            width: 100%; /* Sets the table width to 100% of its container */
-            border-collapse: collapse; /* Collapses the borders into a single border */
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
         }
+
         th, td {
-            border: 1px solid #ddd; /* Adds a light grey border to the table cells */
-            padding: 8px; /* Adds padding inside the table cells */
+            padding: 12px 15px;
+            border: 1px solid #ddd;
         }
+
         th {
-            background-color: #f2f2f2; /* Sets the background color of the table headers to light grey */
+            background-color: var(--primary-color);
+            color: white;
         }
+
+        tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+
         .highlight {
-            background-color: rgba(255, 0, 0, 0.2); /* Highlights rows with a light red background color */
+            background-color: rgba(255, 0, 0, 0.2);
+        }
+
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 10px;
+            }
+
+            input[type="text"] {
+                width: 100%;
+            }
+
+            button[type="submit"] {
+                width: 100%;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <header class="header">
-        <h1>Cabarrus County - Casehead Search</h1> <!-- Main title of the page -->
+        <h1>Cabarrus County - Casehead Search</h1>
     </header>
     <div class="container">
         <div class="search-section">
             <form id="searchForm" action="/search" method="post">
-                <input type="text" name="last_name" id="last_name_input" placeholder="Enter last name" required value="{{ last_name_input }}" >
-                <button type="submit">Search</button>
+                <input type="text" name="last_name" id="last_name_input" placeholder="Enter last name" aria-label="Enter last name" required value="{{ last_name_input }}" >
+                <button type="submit" aria-label="Search"><i class="fas fa-search"></i> Search</button>
             </form>
             {% if suggested_name %}
             <p style="color: red;">Did you mean: <a href="#" onclick="useSuggestedName('{{ suggested_name }}');">{{ suggested_name }}</a></p>
@@ -70,15 +145,15 @@
             }
         </script>
         <div class="results-section">
-            <h2>Search Results: {{ cleaned_last_name }}</h2> <!-- Displays the cleaned last name -->
+            <h2>Search Results: {{ cleaned_last_name }}</h2>
             <table>
                 <thead>
                     <tr>
                         <th>Program</th>
                         <th>Last Name</th>
                         <th>Case Worker</th>
-                        <th>Backup</th>
                         <th>EXT</th>
+                        <th>Backup</th>
                         <th>Supervisor</th>
                     </tr>
                 </thead>
@@ -86,49 +161,58 @@
                     {% if results %}
                         {% for result in results %}
                             <tr>
-                                <td>{{ result.Program }}</td> <!-- Displays the program name -->
-                                <td>{{ result.LastName }}</td> <!-- Displays the last name range -->
-                                <td>{{ result.CaseWorker }}</td> <!-- Displays the case worker's name -->
-                                <td>{{ result.BackupBuddy }}</td> <!-- Displays the backup buddy's name -->
-                                <td>{{ result.EXT }}</td> <!-- Displays the extension number -->
-                                <td>{{ result.Supervisor }}</td> <!-- Displays the supervisor's name -->
+                                <td>{{ result.Program }}</td>
+                                <td>{{ result.LastName }}</td>
+                                <td>{{ result.CaseWorker }}</td>
+                                <td>{{ result.EXT }}</td>
+                                <td>{{ result.BackupBuddy }}</td>
+                                <td>{{ result.Supervisor }}</td>
                             </tr>
                         {% endfor %}
                     {% else %}
-                        <tr><td colspan="6">No results found for '{{ last_name_input }}'.</td></tr> <!-- Message displayed when no results are found -->
+                        <tr><td colspan="6">No results found for '{{ last_name_input }}'.</td></tr>
                     {% endif %}
                 </tbody>
             </table>
 
             {% if overlapping_results %}
-                <h2>Overlapping Last Name Ranges:</h2> <!-- Header for overlapping results section -->
+                <h2>Overlapping Last Name Ranges:</h2>
                 <table>
                     <thead>
                         <tr>
                             <th>Program</th>
+                            <th>Last Name</th>
                             <th>Case Worker</th>
-                            <th>Backup Buddy</th>
                             <th>EXT</th>
+                            <th>Backup</th>
                             <th>Supervisor</th>
-                            <th>Last Name Range</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for result in overlapping_results %}
                             <tr class="highlight">
-                                <td>{{ result.Program }}</td> <!-- Displays the program name -->
-                                <td>{{ result.CaseWorker }}</td> <!-- Displays the case worker's name -->
-                                <td>{{ result.BackupBuddy }}</td> <!-- Displays the backup buddy's name -->
-                                <td>{{ result.EXT }}</td> <!-- Displays the extension number -->
-                                <td>{{ result.Supervisor }}</td> <!-- Displays the supervisor's name -->
-                                <td>{{ result.LastName }}</td> <!-- Displays the last name range -->
+                                <td>{{ result.Program }}</td>
+                                <td>{{ result.LastName }}</td>
+                                <td>{{ result.CaseWorker }}</td>
+                                <td>{{ result.EXT }}</td>
+                                <td>{{ result.BackupBuddy }}</td>
+                                <td>{{ result.Supervisor }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             {% endif %}
-
         </div>
     </div>
+    <footer class="footer" id="footer">
+        <p>&copy; June 2024 - Jacob George. All rights reserved. </p>
+    </footer>
+    <script>
+        // Check if URL contains '/search'
+        if (window.location.href.indexOf('/search') > -1) {
+            document.body.classList.add('search-page');
+        }
+    </script>
+    
 </body>
 </html>

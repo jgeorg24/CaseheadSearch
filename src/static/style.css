@@ -6,7 +6,7 @@ body {
 
 .search-section {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .search-section form {
@@ -15,7 +15,7 @@ body {
 
 .search-section input[type="text"] {
     padding: 10px;
-    width: 200px;
+    width: 350px;
     font-size: 16px;
 }
 
@@ -40,16 +40,90 @@ body {
     cursor: pointer;
 }
 
+.results-section > table:first-of-type {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    font-size: 16px;
+    border: 1px solid #888; /* Darker border color for the first table */
+}
+
+.results-section > table:first-of-type th,
+.results-section > table:first-of-type td {
+    padding: 12px 15px;
+    border: 1px solid #888; /* Darker border color for cells in the first table */
+}
+
+.results-section > table:nth-of-type(2) {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    font-size: 16px;
+    border: 1px solid #555; /* Darker border color for the second table */
+}
+
+.results-section > table:nth-of-type(2) th,
+.results-section > table:nth-of-type(2) td {
+    padding: 12px 15px;
+    border: 1px solid #555; /* Darker border color for cells in the second table */
+}
+
+.results-section > table:nth-of-type(2) tbody .highlight {
+    background-color: rgba(255, 0, 0, 0.2); /* Red background color for rows in the second table */
+}
+
+
+.footer {
+    background-color: #00a4e0; /* Change to your desired color */
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 1000; /* Ensure it appears above other content */
+}
+/* Styles for table and rows */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 16px;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    transition: transform 0.2s ease;
+}
+
+th {
+    background-color: #00a4e0;
+    color: white;
+}
+
+tr {
+    transition: transform 0.2s ease;
+}
+
+.search-page .results-section table tbody tr:hover td {
+    transform: scale(1.12); /* Increase size on hover */
+    
+}
+
+.search-page .results-section table tbody tr:hover {
+    background-color: rgba(252, 245, 95, 0.5); /* Adjust the background color and opacity as desired */
+}
+
+
+/* Reset for <th> cells */
+.search-page .results-section table tbody tr:hover th {
+    transform: none; /* No transformation on hover */
+}
+
 .results-section {
     margin-top: 20px;
     text-align: center;
-}
-
-.results-section ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.results-section li {
-    margin-bottom: 5px;
+    padding-bottom: 30px; /* Add space at the bottom */
 }
