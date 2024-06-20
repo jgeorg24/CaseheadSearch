@@ -38,7 +38,8 @@ def find_case_worker(last_name):
         file_path = os.path.join(DATA_DIR, f'{program}.xlsx')  # Construct the file path
         if os.path.exists(file_path):
             df = pd.read_excel(file_path)  # Read the Excel file into a DataFrame
-            df['LastName'] = df['LastName'].str.strip().str.upper()  # Normalize LastName column
+            df['OriginalLastName'] = df['LastName']  # Keep the original last names for display
+            df['ModifiedLastName'] = df['LastName'].str.strip().str.upper() + 'Z'  # Normalize LastName column and add 'Z' at the end
             df['Overlap'] = df['Overlap'].str.strip().str.upper().fillna('')  # Normalize Overlap column and fill NaN with empty string
 
             # Check for exact overlap match first
@@ -50,7 +51,7 @@ def find_case_worker(last_name):
                     'BackupBuddy': row.get('BackupBuddy', ''),
                     'EXT': row.get('EXT', ''),
                     'Supervisor': row.get('Supervisor', ''),
-                    'LastName': row['LastName']
+                    'LastName': row['OriginalLastName']  # Use the original last name for display
                 })
 
             # If exact overlaps were found, skip the alphabetical range match
@@ -60,7 +61,7 @@ def find_case_worker(last_name):
 
             # Check for alphabetical range matches
             for index, row in df.iterrows():
-                name_range = row['LastName'].split('-')  # Split the range in LastName column
+                name_range = row['ModifiedLastName'].split('-')  # Split the range in ModifiedLastName column
                 if len(name_range) == 2:
                     start_name = name_range[0].strip()
                     end_name = name_range[1].strip()
@@ -74,15 +75,16 @@ def find_case_worker(last_name):
                         results.append({  # Add match to results list
                             'Program': program,
                             'CaseWorker': row['CaseWorker'],
-                            'BackupBuddy': row.get('BackupBuddy', ''),
                             'EXT': row.get('EXT', ''),
+                            'BackupBuddy': row.get('BackupBuddy', ''),
                             'Supervisor': row.get('Supervisor', ''),
-                            'LastName': row['LastName']
+                            'LastName': row['OriginalLastName']  # Use the original last name for display
                         })
-                        alpha_listing = f"Matches for '{cleaned_last_name}' found in range '{row['LastName']}' for program '{program}'."  # Set alpha_listing message
+                        alpha_listing = f"Matches for '{cleaned_last_name}' found in range '{row['OriginalLastName']}' for program '{program}'."  # Set alpha_listing message
                         break  # Exit the loop as we found a match
 
     return results, overlapping_results, alpha_listing, cleaned_last_name  # Return results and messages for display
+
 
 # Search route
 @app.route('/search', methods=['POST'])
@@ -99,5 +101,3 @@ if __name__ == '__main__':
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=False, host='0.0.0.0', port=port)
-
-
