@@ -13,21 +13,6 @@
             --text-color: #333;
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: var(--secondary-color);
-            color: var(--text-color);
-        }
-
-        .header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-        }
-
         .container {
             max-width: 800px;
             margin: 20px auto;
@@ -38,7 +23,7 @@
         }
 
         .search-section {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
         }
 
@@ -67,6 +52,38 @@
 
         .results-section {
             text-align: left;
+        }
+
+        .results-title {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .results-title img {
+            margin-left: 10px;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+        }
+
+        .tooltip-box {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: calc(100% + 10px);
+            transform: translateY(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .results-title img:hover + .tooltip-box,
+        .results-title img:focus + .tooltip-box,
+        .results-title img:active + .tooltip-box {
+            display: block;
         }
 
         table {
@@ -98,16 +115,6 @@
             background-color: rgba(255, 0, 0, 0.2);
         }
 
-        .footer {
-            background-color: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-
         @media (max-width: 600px) {
             .container {
                 width: 90%;
@@ -132,7 +139,7 @@
     <div class="container">
         <div class="search-section">
             <form id="searchForm" action="/search" method="post">
-                <input type="text" name="last_name" id="last_name_input" placeholder="Enter last name" aria-label="Enter last name" required value="{{ last_name_input }}" >
+                <input type="text" name="last_name" id="last_name_input" placeholder="Enter last name" aria-label="Enter last name" required value="{{ last_name_input }}">
                 <button type="submit" aria-label="Search"><i class="fas fa-search"></i> Search</button>
             </form>
             {% if suggested_name %}
@@ -146,7 +153,15 @@
             }
         </script>
         <div class="results-section">
-            <h2>Search Results: {{ cleaned_last_name }}</h2>
+            <div class="results-title">
+                <h2>Search Results: {{ cleaned_last_name }}</h2>
+                {% if overlapping_results %}
+                <div style="position: relative;">
+                    <img src="{{ url_for('static', filename='error.png') }}" alt="Error Icon">
+                    <div class="tooltip-box">Overlapping Last Name</div>
+                </div>
+                {% endif %}
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -209,11 +224,9 @@
         <p>&copy; June 2024 - Jacob George. All rights reserved. </p>
     </footer>
     <script>
-        // Check if URL contains '/search'
         if (window.location.href.indexOf('/search') > -1) {
             document.body.classList.add('search-page');
         }
     </script>
-    
 </body>
 </html>

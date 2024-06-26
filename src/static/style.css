@@ -1,7 +1,17 @@
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    border-bottom: 10px solid #003885; /* Add bottom border with specified color */
+}
+
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
 }
 
 .search-section {
@@ -10,7 +20,7 @@ body {
 }
 
 .search-section form {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .search-section input[type="text"] {
@@ -74,14 +84,14 @@ body {
 
 
 .footer {
-    background-color: #00a4e0; /* Change to your desired color */
+    background-color: var(--primary-color);
     color: white;
     text-align: center;
     padding: 10px 0;
     position: fixed;
     width: 100%;
     bottom: 0;
-    z-index: 1000; /* Ensure it appears above other content */
+    border-top: 10px solid #003885; /* Add top border with specified color */
 }
 /* Styles for table and rows */
 table {
@@ -126,4 +136,40 @@ tr {
     margin-top: 20px;
     text-align: center;
     padding-bottom: 30px; /* Add space at the bottom */
+}
+
+.results-title {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: -20px;
+    margin-top: -20px;
+}
+
+.results-title img {
+    margin-left: 10px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    position: relative; /* Necessary for tooltip positioning */
+}
+
+.tooltip-box {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 110%; /* Place the tooltip slightly to the right of the image */
+    transform: translateY(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 1; /* Ensure tooltip is on top */
+}
+
+.results-title img:hover + .tooltip-box,
+.results-title img:focus + .tooltip-box,
+.results-title img:active + .tooltip-box {
+    display: block;
 }
